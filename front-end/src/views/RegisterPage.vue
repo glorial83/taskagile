@@ -7,24 +7,52 @@
           <div class="tagline">Open Source task management tool</div>
         </div>
         <form @submit.prevent="submitForm">
-          <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
-          <div class="form-group">
-            <input type="text" class="form-control" id="username" v-model="form.username" />
+          <div v-show="errorMessage" class="alert alert-danger failed">
+            {{ errorMessage }}
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" id="emailAddress" v-model="form.emailAddress" />
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              v-model="form.username"
+            />
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="password" v-model="form.password" />
+            <input
+              type="email"
+              class="form-control"
+              id="emailAddress"
+              v-model="form.emailAddress"
+            />
           </div>
-          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+          <div class="form-group">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              v-model="form.password"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Create Account
+          </button>
+          <p class="accept-terms text-muted">
+            By clicking “Create account”, you agree to our
+            <a href="#">terms of service</a> and <a href="#">privacy policy</a>.
+          </p>
+          <p class="text-center text-muted">
+            Already have an account? <a href="/login">Sign in</a>
+          </p>
         </form>
       </div>
     </div>
 
     <footer class="footer">
       <span class="copyright">....</span>
-      <ul class="footer-links list-inline float-right">...</ul>
+      <ul class="footer-links list-inline float-right">
+        ...
+      </ul>
     </footer>
   </div>
 </template>
