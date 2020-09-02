@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.taskagile</groupId>
+  <artifactId>app</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>Task Agile</name>
+  <description>Open source task management tool</description>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.3.3.RELEASE</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.taskagile</groupId>
-  <artifactId>app</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>TaskAgile</name>
-  <description>Open source task management tool</description>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
   </properties>
 
@@ -29,6 +34,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
     </dependency>
 
     <dependency>
@@ -48,11 +57,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-    </dependency>
   </dependencies>
 
   <build>
@@ -60,6 +64,9 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <jmxPort>9011</jmxPort> <!-- 9001포트가 이미 사용중이어서 9011로 변환 -->
+        </configuration>
         <executions>
           <execution>
             <id>pre integration test</id>
@@ -80,11 +87,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
-
-        <configuration>
-          <workingDirectory>${basedir}/front-end</workingDirectory>
-        </configuration>
-
         <executions>
           <!-- npm install -->
           <execution>
@@ -149,6 +151,9 @@
             </configuration>
           </execution>
         </executions>
+        <configuration>
+          <workingDirectory>${basedir}/front-end</workingDirectory>
+        </configuration>
       </plugin>
 
       <plugin>
@@ -156,7 +161,7 @@
         <version>3.1.0</version>
         <executions>
           <!--template  to resources-->
-          <execution>
+          <!-- <execution>
             <id>copy front-end template</id>
             <goals>
               <goal>copy-resources</goal>
@@ -173,10 +178,10 @@
                 </resource>
               </resources>
             </configuration>
-          </execution>
+          </execution> -->
 
           <!--static to resources-->
-          <execution>
+          <!-- <execution>
             <id>copy front-end static assets</id>
             <goals>
               <goal>copy-resources</goal>
@@ -193,7 +198,7 @@
                 </resource>
               </resources>
             </configuration>
-          </execution>
+          </execution> -->
 
           <!--template  to target resources-->
           <execution>
@@ -243,10 +248,10 @@
         <configuration>
           <filesets>
             <fileset>
-              <directory>${basedir}/src/main/resources/static/js</directory>
+              <directory>${basedir}/src/main/resources/static/js/</directory>
             </fileset>
             <fileset>
-              <directory>${basedir}/src/main/resources/templates</directory>
+              <directory>${basedir}/src/main/resources/templates/</directory>
               <includes>
                 <include>index.html</include>
               </includes>
