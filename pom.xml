@@ -161,7 +161,7 @@
         <version>3.1.0</version>
         <executions>
           <!--template  to resources-->
-          <!-- <execution>
+          <execution>
             <id>copy front-end template</id>
             <goals>
               <goal>copy-resources</goal>
@@ -178,10 +178,10 @@
                 </resource>
               </resources>
             </configuration>
-          </execution> -->
+          </execution>
 
           <!--static to resources-->
-          <!-- <execution>
+          <execution>
             <id>copy front-end static assets</id>
             <goals>
               <goal>copy-resources</goal>
@@ -198,7 +198,7 @@
                 </resource>
               </resources>
             </configuration>
-          </execution> -->
+          </execution>
 
           <!--template  to target resources-->
           <execution>
@@ -248,10 +248,10 @@
         <configuration>
           <filesets>
             <fileset>
-              <directory>${basedir}/src/main/resources/static/js/</directory>
+              <directory>${basedir}/src/main/resources/static/js</directory>
             </fileset>
             <fileset>
-              <directory>${basedir}/src/main/resources/templates/</directory>
+              <directory>${basedir}/src/main/resources/templates</directory>
               <includes>
                 <include>index.html</include>
               </includes>
