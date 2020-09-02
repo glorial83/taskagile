@@ -7,6 +7,7 @@
           <div class="tagline">Open Source task management tool</div>
         </div>
         <form @submit.prevent="submitForm">
+          <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
           <div class="form-group">
             <input type="text" class="form-control" id="username" v-model="form.username" />
           </div>
@@ -29,20 +30,31 @@
 </template>
 
 <script>
+import registrationService from "@/services/registration";
+
 export default {
   name: "RegisterPage",
-  data: function () {
+  data: function() {
     return {
       form: {
-        username: '',
-        emailAddress: '',
-        password: ''
+        username: "",
+        emailAddress: "",
+        password: ""
       },
-      errorMessage: ''
-    }
+      errorMessage: ""
+    };
   },
   methods: {
-    submitForm() {}
+    submitForm() {
+      registrationService
+        .register(this.form)
+        .then(() => {
+          this.$router.push({ name: "LoginPage" });
+        })
+        .catch(error => {
+          this.errorMessage = "Failed to register user. " + error.message;
+        });
+    }
   }
 };
 </script>
