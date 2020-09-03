@@ -1,5 +1,6 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import "@testing-library/jest-dom";
+import Vuelidate from "vuelidate";
 
 import VueRouter from "vue-router";
 import RegisterPage from "@/views/RegisterPage.vue";
@@ -7,6 +8,8 @@ import registrationService from "@/services/registration";
 
 const localVue = createLocalVue();
 localVue.use(VueRouter);
+localVue.use(Vuelidate);
+
 const router = new VueRouter();
 
 jest.mock("@/services/registration");
@@ -63,7 +66,7 @@ describe("RegisterPage.vue", () => {
     let data = {
       form: {
         username: "sunny",
-        emailAddress: "sunny@local",
+        emailAddress: "sunny@taskagile.com",
         password: "VueJsRocks!"
       }
     };
@@ -83,11 +86,13 @@ describe("RegisterPage.vue", () => {
   });
 
   it("should register when it is a new user", async () => {
+    //expect.assertion(2);
+
     let data = {
       form: {
         username: "sunny",
-        emailAddress: "sunny@local",
-        password: "Jest!"
+        emailAddress: "sunny@taskagile.com",
+        password: "Jest!!!!!"
       },
       errorMessage: ""
     };
@@ -96,35 +101,81 @@ describe("RegisterPage.vue", () => {
 
     const stub = jest.fn();
     wrapper.vm.$router.push = stub;
-    wrapper.vm.submitForm();
-
+    await wrapper.vm.submitForm();
     expect(registerSpy).toBeCalled();
 
     await wrapper.vm.$nextTick();
-    expect(stub).toHaveBeenCalledWith({ name: "LoginPage" });
+    expect(stub).toHaveBeenCalledWith({
+      name: "LoginPage"
+    });
   });
 
   it("should fail it is not a new user", async () => {
+    //expect.assertion(3);
     let data = {
       form: {
         username: "sunny",
-        emailAddress: "ted@local",
-        password: "Jest!"
+        emailAddress: "ted@taskagile.com",
+        password: "Jest!!!!!!!"
       },
       errorMessage: ""
     };
 
     await wrapper.setData(data);
+    expect(wrapper.find(".failed").element).not.toBeVisible(); //expect(wrapper.find(".failed").isVisible()).toBe(false);
 
-    //expect(wrapper.find(".failed").isVisible()).toBe(false);
-    expect(wrapper.find(".failed").element).not.toBeVisible();
     await wrapper.vm.submitForm(); //여기도 AWAIT 걸어주니까 최종적으로 해결되었다
-
     expect(registerSpy).toBeCalled();
 
     await wrapper.vm.$nextTick();
+    expect(wrapper.find(".failed").element).toBeVisible(); //expect(wrapper.find(".failed").isVisible()).toBe(true);
+  });
 
-    //expect(wrapper.find(".failed").isVisible()).toBe(true);
-    expect(wrapper.find(".failed").element).toBeVisible();
+  it("should fail when the email address is invalid", async () => {
+    let data = {
+      form: {
+        username: "sunny",
+        emailAddress: "bad-emailaddress",
+        password: "Jest!!!!!"
+      },
+      errorMessage: ""
+    };
+
+    await wrapper.setData(data);
+    await wrapper.vm.submitForm();
+
+    expect(registerSpy).not.toHaveBeenCalled();
+  });
+
+  it("should fail when the username is invalid", async () => {
+    let data = {
+      form: {
+        username: "s",
+        emailAddress: "testt@test.co.kr",
+        password: "12345678"
+      },
+      errorMessage: ""
+    };
+
+    await wrapper.setData(data);
+    await wrapper.vm.submitForm();
+
+    expect(registerSpy).not.toHaveBeenCalled();
+  });
+
+  it("should fail when the password is invalid", async () => {
+    let data = {
+      form: {
+        username: "sunny",
+        emailAddress: "test@test.co.kr",
+        password: "1"
+      },
+      errorMessage: ""
+    };
+
+    await wrapper.setData(data);
+    await wrapper.vm.submitForm();
+
+    expect(registerSpy).not.toHaveBeenCalled();
   });
 });
