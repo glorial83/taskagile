@@ -11,28 +11,75 @@
             {{ errorMessage }}
           </div>
           <div class="form-group">
+            <label for="username">UserName</label>
             <input
               type="text"
               class="form-control"
               id="username"
-              v-model="form.username"
+              v-model.trim="form.username"
+              @input="$v.form.username.$touch"
             />
+            <div class="field-error" v-if="$v.form.username.$dirty">
+              <div class="error" v-if="!$v.form.username.required">
+                Username is required
+              </div>
+              <div class="error" v-if="!$v.form.username.alphaNum">
+                Username can only contain letters and numbers
+              </div>
+              <div class="error" v-if="!$v.form.username.minLength">
+                Username must have at least
+                {{ $v.form.username.$params.minLength.min }} letters.
+              </div>
+              <div class="error" v-if="!$v.form.username.maxLength">
+                Username is too long. It can contains maximium
+                {{ $v.form.username.$params.maxLength.max }} letters.
+              </div>
+            </div>
           </div>
           <div class="form-group">
+            <label for="emailAddress">Email</label>
             <input
               type="email"
               class="form-control"
               id="emailAddress"
-              v-model="form.emailAddress"
+              v-model.trim="form.emailAddress"
+              @input="$v.form.emailAddress.$touch"
             />
+            <div class="field-error" v-if="$v.form.emailAddress.$dirty">
+              <div class="error" v-if="!$v.form.emailAddress.required">
+                Email address is required
+              </div>
+              <div class="error" v-if="!$v.form.emailAddress.email">
+                This is not a valid email address
+              </div>
+              <div class="error" v-if="!$v.form.emailAddress.maxLength">
+                Email address is too long. It can contains maximium
+                {{ $v.form.emailAddress.$params.maxLength.max }} letters.
+              </div>
+            </div>
           </div>
           <div class="form-group">
+            <label for="password">Password</label>
             <input
               type="password"
               class="form-control"
               id="password"
-              v-model="form.password"
+              v-model.trim="form.password"
+              @input="$v.form.password.$touch"
             />
+            <div class="field-error" v-if="$v.form.password.$dirty">
+              <div class="error" v-if="!$v.form.password.required">
+                Password is required
+              </div>
+              <div class="error" v-if="!$v.form.password.minLength">
+                Password is too short. It can contains at least
+                {{ $v.form.password.$params.minLength.min }} letters.
+              </div>
+              <div class="error" v-if="!$v.form.password.maxLength">
+                Password is too long. It can contains maximium
+                {{ $v.form.password.$params.maxLength.max }} letters.
+              </div>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary btn-block">
             Create Account
@@ -50,9 +97,18 @@
     </div>
 
     <footer class="footer">
-      <span class="copyright">copyright</span>
+      <span class="copyright">&copy; 2018 TaskAgile.com</span>
       <ul class="footer-links list-inline float-right">
-        site map
+        <li class="list-inline-item"><a href="#">About</a></li>
+        <li class="list-inline-item"><a href="#">Terms of Service</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        <li class="list-inline-item">
+          <a
+            href="https://github.com/taskagile/vuejs.spring-boot.mysql"
+            target="_blank"
+            >GitHub</a
+          >
+        </li>
       </ul>
     </footer>
   </div>
@@ -123,16 +179,49 @@ export default {
 .container {
   max-width: 900px;
 }
+
 .register-form {
   margin-top: 50px;
   max-width: 320px;
+
+  .form-group label {
+    font-weight: bold;
+    color: #555;
+  }
+
+  .accept-terms {
+    margin: 20px 0 40px 0;
+  }
 }
+
 .logo-wrapper {
+  text-align: center;
   margin-bottom: 40px;
+
+  .tagline {
+    line-height: 180%;
+    color: #666;
+  }
+
+  .logo {
+    max-width: 150px;
+    margin: 0 auto;
+  }
 }
 .footer {
   width: 100%;
+  font-size: 13px;
+  color: #666;
   line-height: 40px;
+  border-top: 1px solid #ddd;
   margin-top: 50px;
+
+  .list-inline-item {
+    margin-right: 10px;
+  }
+
+  a {
+    color: #666;
+  }
 }
 </style>
