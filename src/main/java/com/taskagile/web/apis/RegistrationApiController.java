@@ -3,7 +3,9 @@ package com.taskagile.web.apis;
 import javax.validation.Valid;
 
 import com.taskagile.domain.application.UserService;
+import com.taskagile.domain.model.user.EmailAddressExistsException;
 import com.taskagile.domain.model.user.RegistrationException;
+import com.taskagile.domain.model.user.UsernameExistsException;
 import com.taskagile.web.payload.RegistrationPayload;
 import com.taskagile.web.results.ApiResult;
 import com.taskagile.web.results.Result;
@@ -27,8 +29,13 @@ public class RegistrationApiController {
       service.register(payload.toCommand());
       return Result.created();
     } catch (RegistrationException e) {
-      e.printStackTrace();
-      return Result.failure("오류발생");
+      String errorMessage = "Registration failed";
+      if (e instanceof UsernameExistsException) {
+        errorMessage = "Username already exists";
+      } else if (e instanceof EmailAddressExistsException) {
+        errorMessage = "Email address already exists";
+      }
+      return Result.failure(errorMessage);
     }
 
   }

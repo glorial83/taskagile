@@ -13,12 +13,12 @@ public class RegistrationManagement {
   public User register(String username, String emailAddress, String password) throws RegistrationException {
     User existUser = repository.findByUsername(username);
     if (existUser != null) {
-      throw new RegistrationException();
+      throw new UsernameExistsException();
     }
 
     existUser = repository.findByEmailAddress(emailAddress);
     if (existUser != null) {
-      throw new RegistrationException();
+      throw new EmailAddressExistsException();
     }
 
     User user = User.create(username, emailAddress, password);
