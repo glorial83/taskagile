@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="register-form">
         <div class="logo-wrapper">
-          <img class="logo" src="/static/images/logo.png" />
+          <img class="logo" src="/images/logo.png" />
           <div class="tagline">Open Source task management tool</div>
         </div>
         <form @submit.prevent="submitForm">
