@@ -47,7 +47,8 @@ public class RegistrationApiControllerTests {
     payload.setPassword("MyPassword!");
 
     // void일 경우
-    doThrow(UsernameExistsException.class).when(serviceMock).register(ArgumentMatchers.any());
+    // doThrow(UsernameExistsException.class).when(serviceMock).register(ArgumentMatchers.any());
+    doThrow(UsernameExistsException.class).when(serviceMock).register(payload.toCommand());
     // return type이 있을경우
     // when(serviceMock.register(payload.toCommand())).thenThrow(UsernameExistsException.class);
 
